@@ -1,0 +1,16 @@
+[Unit]
+Description=Onifast Panel Server
+After=network.target mysql.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/root/onifast
+ExecStart=/usr/local/bin/onifast-panel
+Restart=always
+RestartSec=5
+StandardOutput=append:/home/root/onifast/logs/panel.log
+StandardError=append:/home/root/onifast/logs/panel.log
+
+[Install]
+WantedBy=multi-user.target

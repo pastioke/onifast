@@ -1,0 +1,24 @@
+[Unit]
+Description=Onifast Web Server
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/root/onifast
+ExecStart=/usr/local/bin/onifast-web
+Restart=always
+RestartSec=5
+StandardOutput=append:/home/root/onifast/logs/web.log
+StandardError=append:/home/root/onifast/logs/web.log
+
+# Security settings
+NoNewPrivileges=false
+PrivateTmp=true
+
+# Allow binding to privileged ports (80, 443)
+# AmbientCapabilities=CAP_NET_BIND_SERVICE
+# CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+
+[Install]
+WantedBy=multi-user.target
