@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Configuration
 REPO_URL="https://raw.githubusercontent.com/pastioke/onifast/main"
@@ -11,6 +12,7 @@ BINARIES=(
     "onifast-panel"
     "cmd/onifast-s3/onifast-s3"
     "cmd/onifast-relay/onifast-relay"
+    "cmd/onifast-tunnel/onifast-tunnel"
     "cmd/onifast-dns/onifast-dns"
     "cmd/onifast-web/onifast-web"
     "cmd/onifast-mail/onifast-mail"
@@ -22,11 +24,39 @@ SERVICES=(
     "onifast-panel.service"
     "onifast-s3.service"
     "onifast-relay.service"
+    "onifast-tunnel.service"
     "onifast-dns.service"
     "onifast-web.service"
     "onifast-mail.service"
     "onifast-ftp.service"
 )
+
+echo "--- Preparing Environment (Cleanup) ---"
+
+# 0. Stop and Uninstall existing services/binaries
+for service in "${SERVICES[@]}"; do
+    if systemctl is-active --quiet "$service"; then
+        echo "Stopping $service..."
+        systemctl stop "$service"
+    fi
+    
+    if [ -f "$SERVICE_DIR/$service" ]; then
+        echo "Removing service file $service..."
+        systemctl disable "$service" --quiet || true
+        rm -f "$SERVICE_DIR/$service"
+    fi
+done
+
+for bin_path in "${BINARIES[@]}"; do
+    filename=$(basename "$bin_path")
+    if [ -f "$BIN_DIR/$filename" ]; then
+        echo "Removing old binary $filename..."
+        rm -f "$BIN_DIR/$filename"
+    fi
+done
+
+# Reload daemon to clear out the removed services
+systemctl daemon-reload
 
 echo "--- Starting Onifast Suite Installation ---"
 

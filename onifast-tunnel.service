@@ -1,0 +1,16 @@
+[Unit]
+Description=Onifast SOCKS5 Tunnel Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/root/onifast
+ExecStart=/usr/local/bin/onifast-tunnel
+Restart=always
+RestartSec=5
+StandardOutput=append:/home/root/onifast/logs/tunnel.log
+StandardError=append:/home/root/onifast/logs/tunnel.log
+
+[Install]
+WantedBy=multi-user.target
