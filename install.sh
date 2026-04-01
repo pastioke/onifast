@@ -4,6 +4,7 @@
 REPO_URL="https://raw.githubusercontent.com/pastioke/onifast/main"
 BIN_DIR="/usr/local/bin"
 SERVICE_DIR="/etc/systemd/system"
+WORKDIR="/home/root/onifast"
 
 # List of binaries and their paths in your repo
 BINARIES=(
@@ -29,21 +30,26 @@ SERVICES=(
 
 echo "--- Starting Onifast Suite Installation ---"
 
-# 1. Download and Install Binaries
+# 1. Create working directory and logs directory
+echo "Creating working directory $WORKDIR..."
+mkdir -p "$WORKDIR/logs"
+chmod 755 "$WORKDIR"
+
+# 2. Download and Install Binaries
 for bin_path in "${BINARIES[@]}"; do
     filename=$(basename "$bin_path")
     echo "Downloading $filename..."
-    curl -fsSL "$REPO_URL/$bin_path" -o "$BIN_DIR/$filename"
+    curl -fsSL "$REPO_URL/$bin_path" -o "$BIN_DIR/$filename" || { echo "Failed to download $filename"; exit 1; }
     chmod +x "$BIN_DIR/$filename"
 done
 
-# 2. Download and Install Systemd Services
+# 3. Download and Install Systemd Services
 for service in "${SERVICES[@]}"; do
     echo "Installing $service..."
-    curl -fsSL "$REPO_URL/$service" -o "$SERVICE_DIR/$service"
+    curl -fsSL "$REPO_URL/$service" -o "$SERVICE_DIR/$service" || { echo "Failed to download $service"; exit 1; }
 done
 
-# 3. Reload systemd and enable services
+# 4. Reload systemd and enable services
 echo "Reloading systemd daemon..."
 systemctl daemon-reload
 
@@ -55,4 +61,5 @@ for service in "${SERVICES[@]}"; do
 done
 
 echo "--- Installation Complete ---"
+echo "Working directory is: $WORKDIR"
 echo "You can start the panel with: systemctl start onifast-panel"
