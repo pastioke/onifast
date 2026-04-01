@@ -49,17 +49,18 @@ for service in "${SERVICES[@]}"; do
     curl -fsSL "$REPO_URL/$service" -o "$SERVICE_DIR/$service" || { echo "Failed to download $service"; exit 1; }
 done
 
-# 4. Reload systemd and enable services
+# 4. Reload systemd and enable/start services
 echo "Reloading systemd daemon..."
 systemctl daemon-reload
 
-# Note: We don't 'start' them automatically here in case config is needed,
-# but we enable them to run on boot.
 for service in "${SERVICES[@]}"; do
+    echo "Configuring $service..."
     systemctl enable "$service"
-    echo "Enabled $service"
+    systemctl start "$service"
+    echo "Started and enabled $service"
 done
 
 echo "--- Installation Complete ---"
 echo "Working directory is: $WORKDIR"
-echo "You can start the panel with: systemctl start onifast-panel"
+echo "All Onifast services have been started and enabled."
+echo "Check status with: systemctl status onifast-*"
