@@ -1,0 +1,16 @@
+[Unit]
+Description=Onifast IP Proxy Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/root/onifast
+ExecStart=/usr/local/bin/onifast-proxy
+Restart=always
+RestartSec=5
+StandardOutput=append:/home/root/onifast/logs/proxy.log
+StandardError=append:/home/root/onifast/logs/proxy.log
+
+[Install]
+WantedBy=multi-user.target
