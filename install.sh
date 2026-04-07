@@ -6,7 +6,8 @@ REPO_URL="https://raw.githubusercontent.com/pastioke/onifast/main"
 BIN_DIR="/usr/local/bin"
 SERVICE_DIR="/etc/systemd/system"
 WORKDIR="/home/root/onifast"
-TMP_DIR=$(mktemp -d) # Temporary directory for downloads
+LOG_DIR="/var/log/onifast" # Added global log directory
+TMP_DIR=$(mktemp -d) 
 
 # Clean up temp dir on exit
 trap 'rm -rf "$TMP_DIR"' EXIT
@@ -73,14 +74,16 @@ for bin_path in "${BINARIES[@]}"; do
     fi
 done
 
-# Reload daemon to clear out the removed services
 systemctl daemon-reload
 
 echo "--- Phase 3: Installing New Files ---"
 
-# 4. Create working directory
+# 4. Create working and log directories
+echo "Creating directories..."
 mkdir -p "$WORKDIR/logs"
+mkdir -p "$LOG_DIR"          # Added: Creates /var/log/onifast
 chmod 755 "$WORKDIR"
+chmod 755 "$LOG_DIR"         # Ensures systemd can write here
 
 # 5. Move Binaries from Temp to Bin Dir
 for bin_path in "${BINARIES[@]}"; do
@@ -105,5 +108,6 @@ for service in "${SERVICES[@]}"; do
 done
 
 echo "--- Installation Complete ---"
-echo "Working directory is: $WORKDIR"
+echo "Working directory: $WORKDIR"
+echo "Log directory:     $LOG_DIR"
 echo "Check status with: systemctl status onifast-*"
