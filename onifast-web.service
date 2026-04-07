@@ -9,8 +9,8 @@ WorkingDirectory=/home/root/onifast
 ExecStart=/usr/local/bin/onifast-web
 Restart=always
 RestartSec=5
-StandardOutput=append:/home/root/onifast/logs/web.log
-StandardError=append:/home/root/onifast/logs/web.log
+StandardOutput=append:/var/log/onifast/web.log
+StandardError=append:/var/log/onifast/web.log
 
 # Security settings
 NoNewPrivileges=false

@@ -9,8 +9,8 @@ WorkingDirectory=/home/root/onifast
 ExecStart=/usr/local/bin/onifast-s3
 Restart=always
 RestartSec=5
-StandardOutput=append:/home/root/onifast/logs/s3.log
-StandardError=append:/home/root/onifast/logs/s3.log
+StandardOutput=append:/var/log/onifast/s3.log
+StandardError=append:/var/log/onifast/s3.log
 
 [Install]
 WantedBy=multi-user.target

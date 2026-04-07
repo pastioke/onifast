@@ -9,8 +9,8 @@ WorkingDirectory=/home/root/onifast
 ExecStart=/usr/local/bin/onifast-proxy
 Restart=always
 RestartSec=5
-StandardOutput=append:/home/root/onifast/logs/proxy.log
-StandardError=append:/home/root/onifast/logs/proxy.log
+StandardOutput=append:/var/log/onifast/proxy.log
+StandardError=append:/var/log/onifast/proxy.log
 
 [Install]
 WantedBy=multi-user.target

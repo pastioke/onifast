@@ -9,8 +9,8 @@ WorkingDirectory=/home/root/onifast
 ExecStart=/usr/local/bin/onifast-ftp
 Restart=always
 RestartSec=5
-StandardOutput=append:/home/root/onifast/logs/ftp.log
-StandardError=append:/home/root/onifast/logs/ftp.log
+StandardOutput=append:/var/log/onifast/ftp.log
+StandardError=append:/var/log/onifast/ftp.log
 
 # Security settings
 NoNewPrivileges=false

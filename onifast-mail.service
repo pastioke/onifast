@@ -9,8 +9,8 @@ WorkingDirectory=/home/root/onifast
 ExecStart=/usr/local/bin/onifast-mail
 Restart=always
 RestartSec=5
-StandardOutput=append:/home/root/onifast/logs/mail.log
-StandardError=append:/home/root/onifast/logs/mail.log
+StandardOutput=append:/var/log/onifast/mail.log
+StandardError=append:/var/log/onifast/mail.log
 
 # Security settings
 NoNewPrivileges=false

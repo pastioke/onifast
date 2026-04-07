@@ -9,8 +9,8 @@ WorkingDirectory=/home/root/onifast
 ExecStart=/usr/local/bin/onifast-relay
 Restart=always
 RestartSec=5
-StandardOutput=append:/home/root/onifast/logs/tunnel.log
-StandardError=append:/home/root/onifast/logs/tunnel.log
+StandardOutput=append:/var/log/onifast/tunnel.log
+StandardError=append:/var/log/onifast/tunnel.log
 
 [Install]
 WantedBy=multi-user.target
