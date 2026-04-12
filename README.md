@@ -1,0 +1,1 @@
+wget -qO- https://raw.githubusercontent.com/pastioke/onifast/main/install.sh | sudo bash
